@@ -1,0 +1,15 @@
+<?php
+
+namespace App\Http\Controllers\Api;
+
+use App\Models\Subscription;
+use App\Http\Controllers\Controller;
+
+class SubscriptionController extends Controller
+{
+    public function index()
+    {
+        $subscriptions = Subscription::all();
+        return response()->json($subscriptions);
+    }
+}
