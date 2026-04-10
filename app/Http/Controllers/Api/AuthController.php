@@ -22,36 +22,36 @@ class AuthController extends Controller
         return response()->json(compact('user','token'), 201);
     }
 
-    // public function login(Request $request)
-    // {
-    //     $credentials = $request->only('email','password');
-    //     if (! $token = JWTAuth::attempt($credentials)) {
-    //         return response()->json(['error' => 'Invalid credentials'], 401);
-    //     }
-    //     return response()->json(compact('token'));
-    // }
     public function login(Request $request)
-{
-    $email = $request->input('email');
-    $password = $request->input('password');
-
-    // 🔐 Static credentials check
-    if ($email === 'admin@example.com' && $password === '123456') {
-        // You can return a fake token OR generate one manually if needed
-        return response()->json([
-            'token' => 'static-token-123'
-        ]);
+    {
+        $credentials = $request->only('email','password');
+        if (! $token = JWTAuth::attempt($credentials)) {
+            return response()->json(['error' => 'Invalid credentials'], 401);
+        }
+        return response()->json(compact('token'));
     }
+//     public function login(Request $request)
+// {
+//     $email = $request->input('email');
+//     $password = $request->input('password');
 
-    // 🔁 Normal JWT login
-    $credentials = $request->only('email', 'password');
+//     // 🔐 Static credentials check
+//     if ($email === 'admin@example.com' && $password === '123456') {
+//         // You can return a fake token OR generate one manually if needed
+//         return response()->json([
+//             'token' => 'static-token-123'
+//         ]);
+//     }
 
-    if (! $token = JWTAuth::attempt($credentials)) {
-        return response()->json(['error' => 'Invalid credentials'], 401);
-    }
+//     // 🔁 Normal JWT login
+//     $credentials = $request->only('email', 'password');
 
-    return response()->json(compact('token'));
-}
+//     if (! $token = JWTAuth::attempt($credentials)) {
+//         return response()->json(['error' => 'Invalid credentials'], 401);
+//     }
+
+//     return response()->json(compact('token'));
+// }
 
     public function me()
     {
