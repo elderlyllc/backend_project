@@ -9,7 +9,7 @@ class SubscriptionController extends Controller
 {
     public function index()
     {
-        $subscriptions = Subscription::all();
+        $subscriptions = Subscription::with('details')->get();
         return response()->json($subscriptions);
     }
 }
