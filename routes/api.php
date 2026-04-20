@@ -14,3 +14,7 @@ Route::get('/test', function () {
 
 /* Subscription Related Operation */
 Route::get('/subscriptions', [SubscriptionController::class, 'index']);
+
+/* Cart Related Operation */
+Route::get('/fetchCart', [CartController::class, 'index']);
+Route::post('/addCartItem', [CartController::class, 'addCartItem']);
