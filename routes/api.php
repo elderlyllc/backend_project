@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\SubscriptionController;
+use App\Http\Controllers\Api\CartController;
 
 
 /* User Related Operation */
@@ -16,5 +17,6 @@ Route::get('/test', function () {
 Route::get('/subscriptions', [SubscriptionController::class, 'index']);
 
 /* Cart Related Operation */
-Route::get('/fetchCart', [CartController::class, 'index']);
-Route::post('/addCartItem', [CartController::class, 'addCartItem']);
+Route::get('/carts', [CartController::class, 'index']);
+Route::post('/add-cart', [CartController::class, 'addCart']);
+Route::get('/cart-details/{id}', [CartController::class, 'fetchCartDetails']);

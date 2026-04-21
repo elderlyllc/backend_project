@@ -12,32 +12,31 @@ class CartDetails extends Model
 
     protected $table = 'cart_details';
 
+    public $timestamps = false;
+
     protected $fillable = [
         'cart_id',
-        'monthly',
-        'yearly',
-        'amount',
+        'is_active',
+        'card_state',
         'created_by',
         'created_at',
     ];
 
     protected $casts = [
-        'monthly' => 'boolean',
-        'yearly' => 'boolean',
-        'amount' => 'decimal:2',
+        'is_active' => 'boolean',
         'created_at' => 'datetime',
     ];
 
     /**
-     * Get the subscription that owns this detail.
+     * Get the cart that owns this detail.
      */
-    public function subscription(): BelongsTo
+    public function cart(): BelongsTo
     {
-        return $this->belongsTo(Subscription::class, 'subscription_id');
+        return $this->belongsTo(Cart::class, 'cart_id');
     }
 
     /**
-     * Get the user who created this subscription detail.
+     * Get the user who created this card detail.
      */
     public function creator(): BelongsTo
     {
