@@ -20,6 +20,11 @@ class CartDetails extends Model
         'card_state',
         'created_by',
         'created_at',
+
+        // ✅ NEW FIELDS
+        'service_for',
+        'medical_issue',
+        'comment_for_medical_condition',
     ];
 
     protected $casts = [

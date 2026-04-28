@@ -69,4 +69,33 @@ class AuthController extends Controller
             'token' => auth()->refresh()
         ]);
     }
+    public function updateUserDetails(Request $request, $id)
+{
+    $request->validate([
+        'first_name' => 'nullable|string|max:255',
+        'last_name' => 'nullable|string|max:255',
+        'date_of_birth' => 'nullable|date',
+    ]);
+
+    $user = User::find($id);
+
+    if (!$user) {
+        return response()->json([
+            'status' => false,
+            'message' => 'User not found',
+        ], 404);
+    }
+
+    $user->update([
+        'first_name' => $request->first_name ?? $user->first_name,
+        'last_name' => $request->last_name ?? $user->last_name,
+        'date_of_birth' => $request->date_of_birth ?? $user->date_of_birth,
+    ]);
+
+    return response()->json([
+        'status' => true,
+        'message' => 'User details updated successfully',
+        'user' => $user,
+    ]);
+}
 }

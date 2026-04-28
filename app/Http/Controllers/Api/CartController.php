@@ -116,4 +116,37 @@ class CartController extends Controller
         'data' => $cart,
     ]);
 }
+public function saveCartDetails(Request $request)
+{
+    $request->validate([
+        'cart_id' => 'required|integer|exists:cart,id',
+        'service_for' => 'nullable|string|max:50',
+        'medical_issue' => 'nullable|string|max:255',
+        'comment_for_medical_condition' => 'nullable|string',
+        'created_by' => 'nullable|integer',
+        'card_state' => 'nullable|string|max:50',
+        'is_active' => 'nullable|boolean',
+    ]);
+
+    $cartDetails = CartDetails::updateOrCreate(
+        [
+            'cart_id' => $request->cart_id,
+        ],
+        [
+            'service_for' => $request->service_for,
+            'medical_issue' => $request->medical_issue,
+            'comment_for_medical_condition' => $request->comment_for_medical_condition,
+            'created_by' => $request->created_by,
+            'card_state' => $request->card_state ?? 'active',
+            'is_active' => $request->has('is_active') ? $request->is_active : true,
+            'created_at' => now(),
+        ]
+    );
+
+    return response()->json([
+        'status' => true,
+        'message' => 'Cart details saved successfully',
+        'data' => $cartDetails,
+    ]);
+}
 }

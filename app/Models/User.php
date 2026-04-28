@@ -12,9 +12,11 @@ class User extends Authenticatable implements JWTSubject
     use HasFactory, Notifiable;
 
     protected $fillable = [
-        'name',
+        'first_name',
+        'last_name',
         'email',
         'password',
+        'date_of_birth',
     ];
 
     protected $hidden = [
@@ -22,11 +24,29 @@ class User extends Authenticatable implements JWTSubject
         'remember_token',
     ];
 
+    protected $casts = [
+        'date_of_birth' => 'date',
+    ];
+
+    /**
+     * Get full name (optional helper)
+     */
+    public function getFullNameAttribute()
+    {
+        return $this->first_name . ' ' . $this->last_name;
+    }
+
+    /**
+     * JWT: Get identifier
+     */
     public function getJWTIdentifier()
     {
         return $this->getKey();
     }
 
+    /**
+     * JWT: Custom claims
+     */
     public function getJWTCustomClaims()
     {
         return [];
