@@ -92,4 +92,28 @@ class CartController extends Controller
 
         return 'CA-' . $customerId . '-' . $timestamp . '-' . $counter;
     }
+    public function updateCartStatus(Request $request, $id)
+{
+    $request->validate([
+        'isactive' => 'required|boolean',
+    ]);
+
+    $cart = Cart::find($id);
+
+    if (!$cart) {
+        return response()->json([
+            'status' => false,
+            'message' => 'Cart not found',
+        ], 404);
+    }
+
+    $cart->isactive = $request->isactive;
+    $cart->save();
+
+    return response()->json([
+        'status' => true,
+        'message' => 'Cart status updated successfully',
+        'data' => $cart,
+    ]);
+}
 }
