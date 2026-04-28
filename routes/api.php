@@ -20,3 +20,4 @@ Route::get('/subscriptions', [SubscriptionController::class, 'index']);
 Route::get('/carts', [CartController::class, 'index']);
 Route::post('/add-cart', [CartController::class, 'addCart']);
 Route::get('/cart-details/{id}', [CartController::class, 'fetchCartDetails']);
+Route::patch('/cart-status/{id}', [CartController::class, 'updateCartStatus']);

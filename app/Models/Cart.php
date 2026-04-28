@@ -55,4 +55,30 @@ class Cart extends Model
     {
         return $this->belongsTo(Subscription::class, 'subscription_id');
     }
+
+    public function updateCartStatus(Request $request, $id)
+{
+    $request->validate([
+        'isactive' => 'required|boolean',
+    ]);
+
+    $cart = Cart::find($id);
+
+    if (!$cart) {
+        return response()->json([
+            'status' => false,
+            'message' => 'Cart not found'
+        ], 404);
+    }
+
+    $cart->update([
+        'isactive' => $request->isactive
+    ]);
+
+    return response()->json([
+        'status' => true,
+        'message' => 'Cart status updated successfully',
+        'data' => $cart
+    ]);
+}
 }
