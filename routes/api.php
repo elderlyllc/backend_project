@@ -23,3 +23,7 @@ Route::post('/add-cart', [CartController::class, 'addCart']);
 Route::get('/cart-details/{id}', [CartController::class, 'fetchCartDetails']);
 Route::patch('/cart-status/{id}', [CartController::class, 'updateCartStatus']);
 Route::post('/cart-details/save', [CartController::class, 'saveCartDetails']);
+
+
+/* Payment Related Operation */
+Route::post('/create-payment-intent', [PaymentController::class, 'createPaymentIntent']);
