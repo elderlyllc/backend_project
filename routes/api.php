@@ -27,3 +27,4 @@ Route::post('/cart-details/save', [CartController::class, 'saveCartDetails']);
 
 /* Payment Related Operation */
 Route::post('/create-payment-intent', [PaymentController::class, 'createPaymentIntent']);
+Route::post('/payment/save-status', [PaymentController::class, 'savePaymentStatus']);
