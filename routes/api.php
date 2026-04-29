@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\SubscriptionController;
 use App\Http\Controllers\Api\CartController;
-
+use App\Http\Controllers\Api\PaymentController;
 
 /* User Related Operation */
 Route::post('/register', [AuthController::class, 'register']);
