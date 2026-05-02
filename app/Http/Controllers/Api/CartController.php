@@ -149,4 +149,43 @@ public function saveCartDetails(Request $request)
         'data' => $cartDetails,
     ]);
 }
+public function saveCartDetails(Request $request)
+{
+    $request->validate([
+        'cart_id' => 'required|integer|exists:cart,id',
+        'created_by' => 'required|integer',
+        'service_for' => 'required|in:self,other',
+        'medical_issue' => 'required|in:yes,no',
+        'comment_for_medical_condition' => 'nullable|string|max:500',
+        'card_state' => 'required|in:morning,afternoon,evening',
+        'is_active' => 'boolean',
+    ]);
+
+    // if medical_issue = yes → comment required
+    if ($request->medical_issue === 'yes' && empty($request->comment_for_medical_condition)) {
+        return response()->json([
+            'status' => false,
+            'message' => 'Comment is required when medical issue is yes'
+        ], 422);
+    }
+
+    $cartDetails = CartDetails::updateOrCreate(
+        ['cart_id' => $request->cart_id],
+        [
+            'created_by' => $request->created_by,
+            'service_for' => $request->service_for,
+            'medical_issue' => $request->medical_issue,
+            'comment_for_medical_condition' => $request->comment_for_medical_condition,
+            'card_state' => $request->card_state,
+            'is_active' => $request->is_active ?? true,
+            'created_at' => now(),
+        ]
+    );
+
+    return response()->json([
+        'status' => true,
+        'message' => 'Cart details saved successfully',
+        'data' => $cartDetails,
+    ]);
+}
 }

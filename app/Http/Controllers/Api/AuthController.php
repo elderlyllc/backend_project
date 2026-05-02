@@ -98,4 +98,33 @@ class AuthController extends Controller
         'user' => $user,
     ]);
 }
+public function updateUserDetails(Request $request, $id)
+{
+    $request->validate([
+        'first_name' => 'required|string|max:255',
+        'last_name' => 'required|string|max:255',
+        'date_of_birth' => 'required|date',
+    ]);
+
+    $user = User::find($id);
+
+    if (!$user) {
+        return response()->json([
+            'status' => false,
+            'message' => 'User not found',
+        ], 404);
+    }
+
+    $user->update([
+        'first_name' => $request->first_name,
+        'last_name' => $request->last_name,
+        'date_of_birth' => $request->date_of_birth,
+    ]);
+
+    return response()->json([
+        'status' => true,
+        'message' => 'User details updated successfully',
+        'data' => $user,
+    ]);
+}
 }
