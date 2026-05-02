@@ -6,7 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Cart;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
-
+use App\Models\CartDetails;
 class CartController extends Controller
 {
     /**
