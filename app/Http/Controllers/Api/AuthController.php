@@ -99,4 +99,23 @@ public function updateUserDetails(Request $request, $id)
         'data' => $user,
     ]);
 }
+
+public function getProfile($id)
+{
+    $user = User::find($id);
+
+    if (!$user) {
+        return response()->json([
+            'status' => false,
+            'message' => 'User not found',
+        ], 404);
+    }
+
+    return response()->json([
+        'status' => true,
+        'message' => 'User profile fetched successfully',
+        'data' => $user,
+    ]);
+}
+
 }

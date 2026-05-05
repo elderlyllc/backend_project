@@ -9,6 +9,7 @@ use App\Http\Controllers\Api\PaymentController;
 /* User Related Operation */
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
+Route::get('/user/{id}', [AuthController::class, 'getProfile']);
 Route::get('/test', function () {
     return ['message' => 'JWT working'];
 });
