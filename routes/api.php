@@ -5,6 +5,7 @@ use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\SubscriptionController;
 use App\Http\Controllers\Api\CartController;
 use App\Http\Controllers\Api\PaymentController;
+use App\Http\Controllers\Api\NotificationController;
 
 /* User Related Operation */
 Route::post('/register', [AuthController::class, 'register']);
@@ -31,3 +32,13 @@ Route::post('/cart-details/save', [CartController::class, 'saveCartDetails']);
 /* Payment Related Operation */
 Route::post('/create-payment-intent', [PaymentController::class, 'createPaymentIntent']);
 Route::post('/payment/save-status', [PaymentController::class, 'savePaymentStatus']);
+
+
+/* Notification Related Operation */
+
+
+Route::get('/notifications/{userId}', [NotificationController::class, 'index']);
+Route::post('/notifications', [NotificationController::class, 'store']);
+Route::patch('/notifications/read/{id}', [NotificationController::class, 'markAsRead']);
+Route::patch('/notifications/read-all/{userId}', [NotificationController::class, 'markAllAsRead']);
+Route::delete('/notifications/{id}', [NotificationController::class, 'delete']);
