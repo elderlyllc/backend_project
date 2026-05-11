@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
 use PHPOpenSourceSaver\JWTAuth\Facades\JWTAuth;
+use Illuminate\Support\Facades\Mail;
 
 class AuthController extends Controller
 {
@@ -115,6 +116,25 @@ public function getProfile($id)
         'status' => true,
         'message' => 'User profile fetched successfully',
         'data' => $user,
+    ]);
+}
+public function sendOtp(Request $request)
+{
+    $request->validate([
+        'email' => 'required|email',
+    ]);
+
+    $otp = rand(100000, 999999);
+
+    Mail::raw("Your OTP is: " . $otp, function ($message) use ($request) {
+        $message->to($request->email)
+            ->subject('Your OTP Code');
+    });
+
+    return response()->json([
+        'status' => true,
+        'message' => 'OTP sent successfully',
+        'otp' => $otp // remove this in production
     ]);
 }
 
