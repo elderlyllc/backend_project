@@ -46,6 +46,35 @@ class User extends Authenticatable implements JWTSubject
     }
 
     /**
+     * Get all pincodes associated with this user
+     */
+    public function pincodes()
+    {
+        return $this->belongsToMany(
+            Pincode::class,
+            'user_pincode_mappings',
+            'user_id',
+            'pincode_id'
+        )->withTimestamps();
+    }
+
+    /**
+     * Get all pincode mappings for this user
+     */
+    public function pincodeMapping()
+    {
+        return $this->hasMany(UserPincodeMapping::class, 'user_id', 'id');
+    }
+
+    /**
+     * Get all customer service pincode assignments for this user
+     */
+    public function serviceAssignments()
+    {
+        return $this->hasMany(CustomerServicePincode::class, 'customer_id', 'id');
+    }
+
+    /**
      * JWT: Get identifier
      */
     public function getJWTIdentifier()
