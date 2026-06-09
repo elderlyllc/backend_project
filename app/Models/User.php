@@ -17,6 +17,7 @@ class User extends Authenticatable implements JWTSubject
         'email',
         'password',
         'date_of_birth',
+        'role_id',
     ];
 
     protected $hidden = [
@@ -34,6 +35,14 @@ class User extends Authenticatable implements JWTSubject
     public function getFullNameAttribute()
     {
         return $this->first_name . ' ' . $this->last_name;
+    }
+
+    /**
+     * Get the role associated with the user
+     */
+    public function role()
+    {
+        return $this->belongsTo(Role::class, 'role_id', 'id');
     }
 
     /**

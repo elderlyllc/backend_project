@@ -125,6 +125,24 @@ public function sendOtp(Request $request)
         'email' => 'required|email',
     ]);
 
+    // Check if user exists with this email
+    $user = User::where('email', $request->email)->first();
+
+    if (!$user) {
+        return response()->json([
+            'status' => false,
+            'message' => 'Please enter registered mail id',
+        ], 404);
+    }
+
+    // Check if user has role_id 2 or 3
+    if (!in_array($user->role_id, [2, 3])) {
+        return response()->json([
+            'status' => false,
+            'message' => 'Please enter registered mail id',
+        ], 403);
+    }
+
     $otpCode = rand(100000, 999999);
 
     // Delete existing OTP for this email
