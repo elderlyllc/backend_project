@@ -12,4 +12,8 @@ class SubscriptionController extends Controller
         $subscriptions = Subscription::with('details')->get();
         return response()->json($subscriptions);
     }
+    public function customer_subscription_pin_mapping()
+    {
+        
+    }
 }
