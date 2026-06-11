@@ -55,3 +55,14 @@ Route::post('/notifications', [NotificationController::class, 'store']);
 Route::patch('/notifications/read/{id}', [NotificationController::class, 'markAsRead']);
 Route::patch('/notifications/read-all/{userId}', [NotificationController::class, 'markAllAsRead']);
 Route::delete('/notifications/{id}', [NotificationController::class, 'delete']);
+
+
+/* Subscription-Pincode Mapping */
+Route::get('/subscription-pincode-mappings', [SubscriptionPincodeController::class, 'index']);
+Route::post('/subscription-pincode-mappings', [SubscriptionPincodeController::class, 'store']);
+Route::get('/subscription-pincode-mappings/{id}', [SubscriptionPincodeController::class, 'show']);
+Route::put('/subscription-pincode-mappings/{id}', [SubscriptionPincodeController::class, 'update']);
+Route::delete('/subscription-pincode-mappings/{id}', [SubscriptionPincodeController::class, 'destroy']);
+Route::get('/subscriptions/{subscriptionId}/pincodes', [SubscriptionPincodeController::class, 'bySubscription']);
+Route::get('/pincodes/{pincodeId}/subscriptions', [SubscriptionPincodeController::class, 'byPincode']);
+Route::get('/customers/{customerId}/subscription-pincodes', [SubscriptionPincodeController::class, 'byCustomer']);
