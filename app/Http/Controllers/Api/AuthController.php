@@ -167,16 +167,82 @@ public function sendOtp(Request $request)
     ]);
 }
 
+// public function verifyOtp(Request $request)
+// {
+//     $request->validate([
+//         'email' => 'required|email',
+//         'otp_code' => 'required|digits:6',
+//     ]);
+
+//     // Find OTP record
+//     $otp = Otp::where('email', $request->email)
+//         ->where('otp_code', $request->otp_code)
+//         ->first();
+
+//     if (!$otp) {
+//         return response()->json([
+//             'status' => false,
+//             'message' => 'Invalid OTP code',
+//         ], 401);
+//     }
+
+//     // Check if OTP has expired
+//     if ($otp->isExpired()) {
+//         $otp->delete();
+//         return response()->json([
+//             'status' => false,
+//             'message' => 'OTP has expired',
+//         ], 401);
+//     }
+
+//     // Delete OTP after verification
+//     $otp->delete();
+
+//     // Find or create user
+//     $user = User::firstOrCreate(
+//         ['email' => $request->email],
+//         [
+//             'name' => $request->email,
+//             'password' => Hash::make(uniqid()),
+//         ]
+//     );
+
+//     // Generate JWT token
+//     $token = JWTAuth::fromUser($user);
+
+//     return response()->json([
+//         'status' => true,
+//         'message' => 'OTP verified successfully',
+//         'token' => $token,
+//         'user_id' => $user->id,
+//         'user' => $user,
+//     ]);
+// }
+
 public function verifyOtp(Request $request)
 {
     $request->validate([
         'email' => 'required|email',
-        'otp_code' => 'required|digits:6',
     ]);
 
-    // Find OTP record
+    $otpCode = $request->otp_code ?? $request->otp;
+
+    if (!$otpCode) {
+        return response()->json([
+            'status' => false,
+            'message' => 'OTP is required',
+        ], 422);
+    }
+
+    if (strlen($otpCode) != 6) {
+        return response()->json([
+            'status' => false,
+            'message' => 'OTP must be 6 digits',
+        ], 422);
+    }
+
     $otp = Otp::where('email', $request->email)
-        ->where('otp_code', $request->otp_code)
+        ->where('otp_code', $otpCode)
         ->first();
 
     if (!$otp) {
@@ -186,28 +252,26 @@ public function verifyOtp(Request $request)
         ], 401);
     }
 
-    // Check if OTP has expired
     if ($otp->isExpired()) {
         $otp->delete();
+
         return response()->json([
             'status' => false,
             'message' => 'OTP has expired',
         ], 401);
     }
 
-    // Delete OTP after verification
     $otp->delete();
 
-    // Find or create user
-    $user = User::firstOrCreate(
-        ['email' => $request->email],
-        [
-            'name' => $request->email,
-            'password' => Hash::make(uniqid()),
-        ]
-    );
+    $user = User::where('email', $request->email)->first();
 
-    // Generate JWT token
+    if (!$user) {
+        return response()->json([
+            'status' => false,
+            'message' => 'User not found',
+        ], 404);
+    }
+
     $token = JWTAuth::fromUser($user);
 
     return response()->json([
