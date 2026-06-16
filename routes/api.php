@@ -7,6 +7,7 @@ use App\Http\Controllers\Api\CartController;
 use App\Http\Controllers\Api\PaymentController;
 use App\Http\Controllers\Api\NotificationController;
 use App\Http\Controllers\Api\SubscriptionPincodeController;
+use App\Http\Controllers\Api\ManagerController;
 
 /* User Related Operation */
 Route::post('/register', [AuthController::class, 'register']);
@@ -32,6 +33,9 @@ Route::delete('/subscription-pincode-mappings/{id}', [SubscriptionPincodeControl
 Route::get('/subscriptions/{subscriptionId}/pincodes', [SubscriptionPincodeController::class, 'bySubscription']);
 Route::get('/pincodes/{pincodeId}/subscriptions', [SubscriptionPincodeController::class, 'byPincode']);
 Route::get('/customers/{customerId}/subscription-pincodes', [SubscriptionPincodeController::class, 'byCustomer']);
+
+/* Manager Related Operation */
+Route::get('/managers/{managerId}/mapped-users', [ManagerController::class, 'getMappedUsers']);
 
 /* Cart Related Operation */
 Route::get('/carts', [CartController::class, 'index']);
@@ -66,3 +70,7 @@ Route::delete('/subscription-pincode-mappings/{id}', [SubscriptionPincodeControl
 Route::get('/subscriptions/{subscriptionId}/pincodes', [SubscriptionPincodeController::class, 'bySubscription']);
 Route::get('/pincodes/{pincodeId}/subscriptions', [SubscriptionPincodeController::class, 'byPincode']);
 Route::get('/customers/{customerId}/subscription-pincodes', [SubscriptionPincodeController::class, 'byCustomer']);
+
+/* Manager Related Operation */
+Route::get('/managers/{managerId}/mapped-users', [ManagerController::class, 'getMappedUsers']);
+
