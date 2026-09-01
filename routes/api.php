@@ -8,6 +8,7 @@ use App\Http\Controllers\Api\PaymentController;
 use App\Http\Controllers\Api\NotificationController;
 use App\Http\Controllers\Api\SubscriptionPincodeController;
 use App\Http\Controllers\Api\ManagerController;
+use App\Http\Controllers\Api\ServiceController;
 
 /* User Related Operation */
 Route::post('/register', [AuthController::class, 'register']);
@@ -23,6 +24,16 @@ Route::put('/user/{id}/details', [AuthController::class, 'updateUserDetails']);
 
 /* Subscription Related Operation */
 Route::get('/subscriptions', [SubscriptionController::class, 'index']);
+
+/* Services Related Operation */
+Route::get('/services', [ServiceController::class, 'index']);
+Route::get('/services/categories', [ServiceController::class, 'getCategoryList']);
+Route::get('/services/category/{category}', [ServiceController::class, 'getByCategory']);
+Route::get('/services/type/{serviceType}', [ServiceController::class, 'getByType']);
+Route::get('/services/{id}', [ServiceController::class, 'show']);
+Route::post('/services', [ServiceController::class, 'store']);
+Route::put('/services/{id}', [ServiceController::class, 'update']);
+Route::delete('/services/{id}', [ServiceController::class, 'destroy']);
 
 /* Subscription-Pincode Mapping */
 Route::get('/subscription-pincode-mappings', [SubscriptionPincodeController::class, 'index']);
